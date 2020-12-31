@@ -3,16 +3,9 @@ mod components;
 
 use components::SearchBar;
 use log::*;
-use serde_derive::{Deserialize, Serialize};
 use yew::prelude::*;
 
-pub struct App {
-    link: ComponentLink<Self>,
-    state: State,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct State {}
+pub struct App {}
 
 pub enum Msg {}
 
@@ -20,9 +13,8 @@ impl Component for App {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let state = State {};
-        App { link, state }
+    fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        App {}
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
