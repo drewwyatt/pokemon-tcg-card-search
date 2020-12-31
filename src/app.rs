@@ -1,6 +1,11 @@
+#[path="components/mod.rs"]
+mod components;
+
+use components::SearchBar;
 use log::*;
 use serde_derive::{Deserialize, Serialize};
 use yew::prelude::*;
+
 
 pub struct App {
     link: ComponentLink<Self>,
@@ -44,32 +49,6 @@ impl Component for App {
                     <p>{ "This is the footer" }</p>
                 </footer>
             </div>
-        }
-    }
-}
-
-pub struct SearchBar {
-}
-
-impl Component for SearchBar {
-    type Message = Msg;
-    type Properties = ();
-
-    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        SearchBar {}
-    }
-
-    fn change(&mut self, _: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn view(&self) -> Html {
-        html! {
-            <input placeholder="Enter a card name" />
         }
     }
 }
