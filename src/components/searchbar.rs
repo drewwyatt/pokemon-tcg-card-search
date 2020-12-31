@@ -1,7 +1,6 @@
 use yew::prelude::*;
 
-pub struct SearchBar {
-}
+pub struct SearchBar {}
 
 pub struct Msg {}
 

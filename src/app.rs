@@ -1,11 +1,10 @@
-#[path="components/mod.rs"]
+#[path = "components/mod.rs"]
 mod components;
 
 use components::SearchBar;
 use log::*;
 use serde_derive::{Deserialize, Serialize};
 use yew::prelude::*;
-
 
 pub struct App {
     link: ComponentLink<Self>,
