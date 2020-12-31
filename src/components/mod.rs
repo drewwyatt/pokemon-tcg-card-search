@@ -1,3 +1,3 @@
 mod searchbar;
 
-pub type SearchBar = searchbar::SearchBar;
+pub use searchbar::SearchBar;
