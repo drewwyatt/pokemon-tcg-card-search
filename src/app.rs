@@ -1,10 +1,6 @@
 use log::*;
 use serde_derive::{Deserialize, Serialize};
-use strum::IntoEnumIterator;
-use strum_macros::{EnumIter, ToString};
-use yew::format::Json;
 use yew::prelude::*;
-use yew::services::storage::{Area, StorageService};
 
 pub struct App {
     link: ComponentLink<Self>,
@@ -29,7 +25,7 @@ impl Component for App {
         false
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _: Self::Message) -> ShouldRender {
         true
     }
 
@@ -39,6 +35,7 @@ impl Component for App {
             <div>
                 <main>
                     <p>{ "This is the main" }</p>
+                    <p>{ "This is a second paragraph" }</p>
                 </main>
                 <footer>
                     <p>{ "This is the footer" }</p>
