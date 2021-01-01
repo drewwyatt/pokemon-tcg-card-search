@@ -8,7 +8,7 @@ pub struct Set {
     expanded_legal: bool,
     logo_url: String,
     name: String,
-    ptcgo_code: String,
+    ptcgo_code: Option<String>,
     #[serde(with = "release_date_format")]
     release_date: NaiveDate,
     series: String,
