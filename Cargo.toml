@@ -8,15 +8,20 @@ edition = "2018"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+chrono = "0.4"
 log = "0.4"
+reqwest = "0.10"
 strum = "0.20"
 strum_macros = "0.20.1"
-serde = "1"
+serde = { version = "1" }
 serde_derive = "1"
+serde_json = "1"
 wasm-bindgen = "0.2.58"
+wasm-bindgen-futures = "0.4"
 wasm-logger = "0.2"
 wee_alloc = { version = "0.4.4", optional = true }
-yew = "0.17"
+yew = { version = "0.17", features = ["services"] }
+yewtil = { varsion = "0.17", features = ["future"] }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
