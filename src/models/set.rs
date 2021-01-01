@@ -9,13 +9,13 @@ pub struct Set {
     logo_url: String,
     name: String,
     ptcgo_code: Option<String>,
-    #[serde(with = "release_date_format")]
+    #[serde(with = "set_format")]
     release_date: NaiveDate,
     series: String,
     standard_legal: bool,
     symbol_url: String,
     total_cards: u8,
-    #[serde(with = "updated_at_format")]
+    #[serde(with = "set_format")]
     updated_at: NaiveDateTime,
 }
 
@@ -24,48 +24,56 @@ pub struct SetResponse {
     pub sets: Vec<Set>,
 }
 
-mod release_date_format {
-    use chrono::NaiveDate;
+mod set_format {
+    use chrono::{NaiveDate, NaiveDateTime};
+    use chrono::format::{DelayedFormat, StrftimeItems, ParseResult};
     use serde::{self, Deserialize, Deserializer, Serializer};
 
-    const FORMAT: &'static str = "%m/%d/%Y";
+    pub trait DateFormatType {
+        fn format_string() -> &'static str;
+        fn format<'a>(&self, fmt: &'a str) -> DelayedFormat<StrftimeItems<'a>>;
+        fn parse_from_str(s: &str, fmt: &str) -> ParseResult<Self> where Self: Sized;
+    }
 
-    pub fn serialize<S>(date: &NaiveDate, serializer: S) -> Result<S::Ok, S::Error>
+    impl DateFormatType for NaiveDateTime {
+        fn format_string() -> &'static str {
+            "%m/%d/%Y %H:%M:%S"
+        }
+        fn format<'a>(&self, fmt: &'a str) -> DelayedFormat<StrftimeItems<'a>> {
+            self.format(fmt)
+        }
+        fn parse_from_str(s: &str, fmt: &str) -> ParseResult<Self> where Self: Sized {
+            Self::parse_from_str(s, fmt)
+        }
+    }
+
+    impl DateFormatType for NaiveDate {
+        fn format_string() -> &'static str {
+            "%m/%d/%Y"
+        }
+        fn format<'a>(&self, fmt: &'a str) -> DelayedFormat<StrftimeItems<'a>> {
+            self.format(fmt)
+        }
+        fn parse_from_str(s: &str, fmt: &str) -> ParseResult<Self> where Self: Sized {
+            Self::parse_from_str(s, fmt)
+        }
+    }
+
+    pub fn serialize<Date, S>(date: &Date, serializer: S) -> Result<S::Ok, S::Error>
     where
+        Date: DateFormatType,
         S: Serializer,
     {
-        let s = format!("{}", date.format(FORMAT));
+        let s = format!("{}", date.format(Date::format_string()));
         serializer.serialize_str(&s)
     }
 
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
+    pub fn deserialize<'de, Date, D>(deserializer: D) -> Result<Date, D::Error>
     where
+        Date: DateFormatType,
         D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
-        NaiveDate::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)
-    }
-}
-
-mod updated_at_format {
-    use chrono::NaiveDateTime;
-    use serde::{self, Deserialize, Deserializer, Serializer};
-
-    const FORMAT: &'static str = "%m/%d/%Y %H:%M:%S";
-
-    pub fn serialize<S>(date: &NaiveDateTime, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let s = format!("{}", date.format(FORMAT));
-        serializer.serialize_str(&s)
-    }
-
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<NaiveDateTime, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let s = String::deserialize(deserializer)?;
-        NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)
+        Date::parse_from_str(&s, Date::format_string()).map_err(serde::de::Error::custom)
     }
 }
