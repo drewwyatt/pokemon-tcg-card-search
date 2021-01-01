@@ -45,19 +45,19 @@ mod set_format {
         }
     }
 
-    pub fn serialize<Date, S>(date: &Date, serializer: S) -> Result<S::Ok, S::Error>
+    pub fn serialize<Date, Ser>(date: &Date, serializer: Ser) -> Result<Ser::Ok, Ser::Error>
     where
         Date: DateFormatStringProviding,
-        S: Serializer,
+        Ser: Serializer,
     {
         let s = format!("{}", date.format(Date::format_string()));
         serializer.serialize_str(&s)
     }
 
-    pub fn deserialize<'de, Date, D>(deserializer: D) -> Result<Date, D::Error>
+    pub fn deserialize<'de, Date, De>(deserializer: De) -> Result<Date, De::Error>
     where
         Date: DateFormatStringProviding,
-        D: Deserializer<'de>,
+        De: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
         Date::parse_from_str(&s, Date::format_string()).map_err(serde::de::Error::custom)
