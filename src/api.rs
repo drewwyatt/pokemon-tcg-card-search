@@ -1,6 +1,3 @@
-use reqwest;
-use serde_json;
-
 use crate::models::{PokemonError, Set, SetResponse};
 
 pub struct PokemonAPI {}
