@@ -25,11 +25,14 @@ pub struct SetResponse {
 }
 
 mod set_format {
+    use crate::models::DateFormatType;
     use chrono::{NaiveDate, NaiveDateTime};
     use serde::{self, Deserialize, Deserializer, Serializer};
-    use crate::models::DateFormatType;
 
-    pub trait DateFormatStringProviding where Self: DateFormatType {
+    pub trait DateFormatStringProviding
+    where
+        Self: DateFormatType,
+    {
         fn format_string() -> &'static str;
     }
 

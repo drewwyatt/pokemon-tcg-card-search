@@ -83,10 +83,14 @@ impl Component for App {
 impl App {
     fn view_sets(&self) -> Html {
         match &self.sets {
-            FetchState::Success(sets) => html! { <ul>{for sets.iter().map(|s| self.view_set(s))}</ul> },
+            FetchState::Success(sets) => {
+                html! { <ul>{for sets.iter().map(|s| self.view_set(s))}</ul> }
+            }
             FetchState::Fetching => html! { <h2>{ "Fetching..." }</h2> },
-            FetchState::Failed(e) => html! { <><h2>{ "Error!" }</h2><pre>{ format!("{:?}", e) }</pre></> },
-            FetchState::Idle => html! { <h2>{ "👇 Click the button to fetch 👇" }</h2> }
+            FetchState::Failed(e) => {
+                html! { <><h2>{ "Error!" }</h2><pre>{ format!("{:?}", e) }</pre></> }
+            }
+            FetchState::Idle => html! { <h2>{ "👇 Click the button to fetch 👇" }</h2> },
         }
     }
 
@@ -99,8 +103,7 @@ impl App {
                     <span>{&set.name}</span>
                 </li>
             },
-            None => html! { <></> }
+            None => html! { <></> },
         }
-
     }
 }
