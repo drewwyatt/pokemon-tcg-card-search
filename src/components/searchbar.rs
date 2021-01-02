@@ -22,7 +22,7 @@ impl Component for SearchBar {
 
     fn view(&self) -> Html {
         html! {
-            <input placeholder="Enter a card name" />
+            <input placeholder="This doesn't do anything yet" />
         }
     }
 }
