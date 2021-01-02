@@ -41,7 +41,7 @@ impl Component for App {
                     }
                 });
                 self.sets = FetchState::Fetching;
-                false
+                true
             }
             Msg::LoadSets(sets) => {
                 self.sets = FetchState::Success(sets);
@@ -58,29 +58,49 @@ impl Component for App {
         info!("rendered!");
         let loggable_sets = format!("{:?}", self.sets);
         ConsoleService::log(&loggable_sets);
-        let sets_msg = match self.sets {
-            FetchState::Success(_) => "Success",
-            FetchState::Failed(_) => "Failed",
-            FetchState::Fetching => "Fetching",
-            FetchState::Idle => "Idle",
-        };
         html! {
             <>
                 <main>
-                    <p>{ "This is the main" }</p>
                     <fieldset>
                         <legend>{ "Search bar" }</legend>
                         <SearchBar />
                     </fieldset>
-                    <fieldset>
-                        <legend>{ "Sets" }</legend>
-                        <h1>{sets_msg}</h1>
-                    </fieldset>
+                    <section>
+                        <fieldset>
+                            <legend>{ "Sets" }</legend>
+                            {self.view_sets()}
+                        </fieldset>
+                        <footer>
+                            <button onclick=self.link.callback(|_| Msg::FetchSets)>{ "Fetch Sets" }</button>
+                        </footer>
+                    </section>
                 </main>
-                <footer>
-                    <button onclick=self.link.callback(|_| Msg::FetchSets)>{ "Fetch Sets" }</button>
-                </footer>
             </>
         }
+    }
+}
+
+impl App {
+    fn view_sets(&self) -> Html {
+        match &self.sets {
+            FetchState::Success(sets) => html! { <ul>{for sets.iter().map(|s| self.view_set(s))}</ul> },
+            FetchState::Fetching => html! { <h2>{ "Fetching..." }</h2> },
+            FetchState::Failed(e) => html! { <><h2>{ "Error!" }</h2><pre>{ format!("{:?}", e) }</pre></> },
+            FetchState::Idle => html! { <h2>{ "👇 Click the button to fetch 👇" }</h2> }
+        }
+    }
+
+    fn view_set(&self, set: &Set) -> Html {
+        match &set.ptcgo_code {
+            Some(code) => html! {
+                <li>
+                    <strong>{code}</strong>
+                    { '\u{00a0}' }
+                    <span>{&set.name}</span>
+                </li>
+            },
+            None => html! { <></> }
+        }
+
     }
 }

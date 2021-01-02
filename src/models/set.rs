@@ -4,19 +4,19 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Set {
-    code: String,
-    expanded_legal: bool,
-    logo_url: String,
-    name: String,
-    ptcgo_code: Option<String>,
+    pub code: String,
+    pub expanded_legal: bool,
+    pub logo_url: String,
+    pub name: String,
+    pub ptcgo_code: Option<String>,
     #[serde(with = "set_format")]
-    release_date: NaiveDate,
-    series: String,
-    standard_legal: bool,
-    symbol_url: String,
-    total_cards: u8,
+    pub release_date: NaiveDate,
+    pub series: String,
+    pub standard_legal: bool,
+    pub symbol_url: String,
+    pub total_cards: u8,
     #[serde(with = "set_format")]
-    updated_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
