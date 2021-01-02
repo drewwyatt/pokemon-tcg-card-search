@@ -1,7 +1,3 @@
-use chrono;
-use reqwest;
-use serde_json;
-
 #[derive(Debug)]
 pub enum PokemonError {
     NetworkError(reqwest::Error),
