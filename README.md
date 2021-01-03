@@ -8,16 +8,16 @@ This is mostly just a place for me to expiriment with [Yew](https://github.com/y
 
 When building for the first time, ensure to install dependencies first.
 
-```
+```bash
 yarn install
 ```
 
-```
-yarn run build
+```bash
+yarn build
 ```
 
 ### 🔬 Serve locally
 
-```
-yarn run dev
+```bash
+yarn dev
 ```
