@@ -1,6 +1,4 @@
-use log::*;
 use yew::prelude::*;
-use yew::services::ConsoleService;
 use yewtil::future::LinkFuture;
 
 use crate::api::PokemonAPI;
@@ -55,55 +53,30 @@ impl Component for App {
     }
 
     fn view(&self) -> Html {
-        info!("rendered!");
-        let loggable_sets = format!("{:?}", self.sets);
-        ConsoleService::log(&loggable_sets);
         html! {
-            <>
-                <main>
-                    <fieldset>
-                        <legend>{ "Search bar" }</legend>
-                        <SearchBar />
-                    </fieldset>
-                    <section>
-                        <fieldset>
-                            <legend>{ "Sets" }</legend>
-                            {self.view_sets()}
-                        </fieldset>
-                        <footer>
-                            <button onclick=self.link.callback(|_| Msg::FetchSets)>{ "Fetch Sets" }</button>
-                        </footer>
-                    </section>
-                </main>
-            </>
+            <main>
+                <section>
+                    {self.view_searchbar()}
+                    <footer>
+                        <button onclick=self.link.callback(|_| Msg::FetchSets)>{ "Fetch Sets" }</button>
+                    </footer>
+                </section>
+            </main>
         }
     }
 }
 
 impl App {
-    fn view_sets(&self) -> Html {
+    fn view_searchbar(&self) -> Html {
         match &self.sets {
             FetchState::Success(sets) => {
-                html! { <ul>{for sets.iter().map(|s| self.view_set(s))}</ul> }
+                html! { <SearchBar sets=sets /> }
             }
             FetchState::Fetching => html! { <h2>{ "Fetching..." }</h2> },
             FetchState::Failed(e) => {
                 html! { <><h2>{ "Error!" }</h2><pre>{ format!("{:?}", e) }</pre></> }
             }
             FetchState::Idle => html! { <h2>{ "👇 Click the button to fetch 👇" }</h2> },
-        }
-    }
-
-    fn view_set(&self, set: &Set) -> Html {
-        match &set.ptcgo_code {
-            Some(code) => html! {
-                <li>
-                    <strong>{code}</strong>
-                    { '\u{00a0}' }
-                    <span>{&set.name}</span>
-                </li>
-            },
-            None => html! { <></> },
         }
     }
 }

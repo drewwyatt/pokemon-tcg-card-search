@@ -1,7 +1,7 @@
 use chrono::{NaiveDate, NaiveDateTime};
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Set {
     pub code: String,
@@ -23,6 +23,8 @@ pub struct Set {
 pub struct SetResponse {
     pub sets: Vec<Set>,
 }
+
+// > Anna's opponent uses Gengar & Mimikyu-GX's (TEU, 53) Horror House-GX attack. During Anna's next turn, she wants to use her Meganium's (LOT, 8) Quick-Ripening Herb Ability to evolve one of her Benched Pokémon. Can she do this?
 
 mod set_format {
     use crate::models::DateFormatType;
