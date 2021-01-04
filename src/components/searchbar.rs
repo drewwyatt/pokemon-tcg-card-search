@@ -1,5 +1,5 @@
-use crate::models::Set;
-use web_sys::HtmlInputElement;
+use crate::models::{Search, Set};
+use std::convert::TryFrom;
 use yew::prelude::*;
 use yew::services::ConsoleService;
 
@@ -33,7 +33,7 @@ impl Component for SearchBar {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::Submit => {
-                let text = self.text_input.cast::<HtmlInputElement>().unwrap().value();
+                let text = Search::try_from(self.text_input.clone());
                 ConsoleService::log(&format!("text: {:?}", text));
                 true
             }

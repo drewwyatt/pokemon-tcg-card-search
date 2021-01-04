@@ -1,5 +1,8 @@
 #![recursion_limit = "512"]
 
+#[macro_use]
+extern crate lazy_static;
+
 #[path = "prelude.rs"]
 mod prelude;
 use prelude::*;

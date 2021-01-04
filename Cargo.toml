@@ -9,7 +9,9 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 chrono = "0.4"
+lazy_static = "1.4.0"
 log = "0.4"
+regex = "1.4.2"
 reqwest = "0.10"
 strum = "0.20"
 strum_macros = "0.20.1"

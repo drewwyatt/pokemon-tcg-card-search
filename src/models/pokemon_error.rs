@@ -3,6 +3,7 @@ pub enum PokemonError {
     NetworkError(reqwest::Error),
     DeserializationError(serde_json::Error),
     DateParseError(chrono::ParseError),
+    InvalidRegex,
     // Unknown,
 }
 
