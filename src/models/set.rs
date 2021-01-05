@@ -1,6 +1,8 @@
 use chrono::{NaiveDate, NaiveDateTime};
 use serde::{Deserialize, Serialize};
 
+use crate::models::{Search, Searchable};
+
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Set {
@@ -22,6 +24,33 @@ pub struct Set {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SetResponse {
     pub sets: Vec<Set>,
+}
+
+impl Searchable<Set> for Vec<Set> {
+    fn identify(&self, query: &Search) -> Option<String> {
+        match query {
+            Search::SetNumber(_, card_number) => match self.search(query) {
+                Some(set) => {
+                    let mut id = set.code.clone();
+                    id.push_str("-");
+                    id.push_str(&card_number.to_string());
+                    Some(id)
+                }
+                None => None,
+            },
+            _ => None,
+        }
+    }
+
+    fn search(&self, query: &Search) -> Option<&Set> {
+        match query {
+            Search::SetNumber(ptcgo_code, _) => {
+                let comparable_code = Some(ptcgo_code.clone());
+                self.iter().find(|set| set.ptcgo_code == comparable_code)
+            }
+            _ => None,
+        }
+    }
 }
 
 // > Anna's opponent uses Gengar & Mimikyu-GX's (TEU, 53) Horror House-GX attack. During Anna's next turn, she wants to use her Meganium's (LOT, 8) Quick-Ripening Herb Ability to evolve one of her Benched Pokémon. Can she do this?
