@@ -10,6 +10,11 @@ pub enum Search {
     SetNumber(String, u8),
 }
 
+pub trait Searchable<T> {
+    fn search(&self, query: &Search) -> Option<&T>;
+    fn identify(&self, query: &Search) -> Option<String>;
+}
+
 impl TryFrom<NodeRef> for Search {
     type Error = PokemonError;
 
