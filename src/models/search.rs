@@ -38,6 +38,6 @@ impl TryFrom<NodeRef> for Search {
             .parse::<u8>()
             .map_err(|_| PokemonError::InvalidRegex)?;
 
-        Ok(Search::SetNumber(String::from(ptcgo_code), card_number))
+        Ok(Search::SetNumber(ptcgo_code, card_number))
     }
 }
