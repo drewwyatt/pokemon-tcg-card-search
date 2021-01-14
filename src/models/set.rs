@@ -32,7 +32,7 @@ impl Searchable<Set> for Vec<Set> {
             Search::SetNumber(_, card_number) => match self.search(query) {
                 Some(set) => {
                     let mut id = set.code.clone();
-                    id.push_str("-");
+                    id.push('-');
                     id.push_str(&card_number.to_string());
                     Some(id)
                 }
