@@ -44,9 +44,9 @@ impl Searchable<Set> for Vec<Set> {
 
     fn search(&self, query: &Search) -> Option<&Set> {
         match query {
-            Search::SetNumber(ptcgo_code, _) => {
-                self.iter().find(|set| set.ptcgo_code.as_deref() == Some(ptcgo_code))
-            }
+            Search::SetNumber(ptcgo_code, _) => self
+                .iter()
+                .find(|set| set.ptcgo_code.as_deref() == Some(ptcgo_code)),
             _ => None,
         }
     }

@@ -26,7 +26,11 @@ impl TryFrom<NodeRef> for Search {
         let input: String = node.cast::<HtmlInputElement>().unwrap().value();
         let captures: Captures = RE.captures(&input).ok_or(PokemonError::InvalidRegex)?; // TODO: match here and fallback to CardName or something
 
-        let ptcgo_code = captures.get(1).ok_or(PokemonError::InvalidRegex)?.as_str();
+        let ptcgo_code = captures
+            .get(1)
+            .ok_or(PokemonError::InvalidRegex)?
+            .as_str()
+            .to_uppercase();
         let card_number: u8 = captures
             .get(2)
             .ok_or(PokemonError::InvalidRegex)?
