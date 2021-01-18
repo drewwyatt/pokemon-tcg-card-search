@@ -11,7 +11,7 @@
     "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.0.1",
     "sass": "^1.32.4",
-    "sass-loader": "^10.1.0",
+    "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
     "wasm-pack": "^0.9.1",
     "webpack": "^4.42.3",
