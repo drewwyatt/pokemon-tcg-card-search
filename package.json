@@ -16,6 +16,6 @@
     "wasm-pack": "^0.9.1",
     "webpack": "^4.42.3",
     "webpack-cli": "^4.3.1",
-    "webpack-dev-server": "^3.11.1"
+    "webpack-dev-server": "^3.11.2"
   }
 }
